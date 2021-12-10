@@ -81,7 +81,7 @@ public class Main_Frame extends JFrame {
         radioMemoryButtons.add(button);
         hBoxMemoryType.add(button);
     }
-    private void addRadioButton(String name, final int formula_number)
+    private void addRadioButton(String name, final int formula_number)           // радиокнопки для формул
     {
         JRadioButton button = new JRadioButton(name);
         button.addActionListener(new ActionListener()
@@ -107,7 +107,7 @@ public class Main_Frame extends JFrame {
         Image img = kit.getImage("src\\bsu.rfe.java.group7.lab2.Lashkin.varC3\\fon.jpg");
         setIconImage(img);
 
-        Box picture = Box.createHorizontalBox();
+        Box picture = Box.createHorizontalBox();                    // область с картинкой
         picture.add(Box.createVerticalGlue());
         picture.add(Box.createHorizontalGlue());
         image = new JLabel(new ImageIcon(Main_Frame.class.getResource("formula_1.jpg")));
@@ -115,14 +115,14 @@ public class Main_Frame extends JFrame {
         picture.add(Box.createHorizontalGlue());
         picture.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 
-        formula_type.add(Box.createHorizontalGlue());
+        formula_type.add(Box.createHorizontalGlue());              // область с выбором формул
         addRadioButton("Формула 1", 1);
         addRadioButton("Формула 2", 2);
         radioButtons.setSelected(radioButtons.getElements().nextElement().getModel(), true);
         formula_type.add(Box.createHorizontalGlue());
         formula_type.setBorder(BorderFactory.createLineBorder(Color.YELLOW));
 
-        Box data=Box.createHorizontalBox();
+        Box data=Box.createHorizontalBox();                 // область с полями ввода значений
 
         x_field = new JTextField("0",10);
         x_field.setMaximumSize(x_field.getPreferredSize());
@@ -160,7 +160,7 @@ public class Main_Frame extends JFrame {
 
         data.setBorder(BorderFactory.createLineBorder(Color.GREEN));
 
-        Box result_area = Box.createHorizontalBox();
+        Box result_area = Box.createHorizontalBox();          // область для результата
         result_area.add(Box.createHorizontalGlue());
         JLabel resultlabel=new JLabel("Результат:");
         result_field = new JTextField("0",15);
@@ -171,23 +171,32 @@ public class Main_Frame extends JFrame {
         result_area.add(Box.createHorizontalGlue());
         result_area.setBorder(BorderFactory.createLineBorder(Color.PINK));
 
-        Box actions=Box.createHorizontalBox();
+        Box actions=Box.createHorizontalBox();                        // область для действий
         JButton calc_button=new JButton("Вычислить");
         calc_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ev) {
-
+                //Преобразование введенных строк в числа с плавающей точкой может
+                //спровоцировать исключительную ситуацию при неправильном формате чисел,
+                //поэтому необходим блок try-catch
                 try {
+                    //Получить значение X
                     Double x = Double.parseDouble(x_field.getText());
+                    //Получить значение Y
                     Double y = Double.parseDouble(y_field.getText());
+                    //Получить значение Z
                     Double z = Double.parseDouble(z_field.getText());
+                    // Результат
                     Double result;
 
+                    //Вычислить результат
                     if (formula_number==1)
                         result = formula1(x, y, z);
                     else
                         result = formula2(x, y, z);
+                    //Установить текст надписи равным результату
                     result_field.setText(result.toString());
                 } catch (NumberFormatException ex) {
+                    //В случае исключительной ситуации показать сообщение
                     JOptionPane.showMessageDialog(Main_Frame.this, "Ошибка в" +
                                     "формате записи числа с плавающей точкой", "Ошибочный формат числа",
                             JOptionPane.WARNING_MESSAGE);
